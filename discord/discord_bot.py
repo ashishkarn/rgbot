@@ -50,11 +50,15 @@ async def on_message(message):
 
     # Do not reply to comments from these users, including itself (client.user)
     blocked_users = [ client.user ]
+    
     # Bot does not reply to itself and only when mentioned
-    if is_keyword_mentioned(message.content):
+    if is_keyword_mentioned(message.content) and message.author not in blocked_users:
         #logger.info("Replied to message of user '{}' in guild '{}' / channel '{}'".format(message.author, message.guild, message.channel))
         msg = get_random_quote().format(message)
         await message.channel.send(msg)
+        
+    elif message.author not in blocked_users and message.content.lower().startswith('trigger rg'):
+        await message.channel.send("Trigger me with words: pappu, rahul gandhi, raul vinci, rahul")
         
 print("Executing")
 
